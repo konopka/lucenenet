@@ -17,17 +17,14 @@ namespace Lucene.Net.Support.Configuration
         {
             var builder = new ConfigurationBuilder();
             var entryAssembly = Assembly.GetEntryAssembly();
-            var configurationFiles = new string[0];
 
             if (entryAssembly != null)
             {
                 var directory = Path.GetDirectoryName(entryAssembly.Location);
-                configurationFiles = Directory.GetFiles(directory, "*.config");
-            }
-
-            foreach (var config in configurationFiles)
-            {
-                builder.AddConfigFile(config, false, new KeyValueParser());
+                foreach (var config in Directory.EnumerateFiles(directory, "*.config"))
+                {
+                    builder.AddConfigFile(config, false, new KeyValueParser());
+                }
             }
 
             _configuration = builder.Build();

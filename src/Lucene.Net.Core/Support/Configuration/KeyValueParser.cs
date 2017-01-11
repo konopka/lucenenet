@@ -84,7 +84,7 @@ namespace Lucene.Net.Support.Configuration
             var key = element.Attribute(_keyName);
             var value = element.Attribute(_valueName);
 
-            if (key == null)
+            if (key == null || value == null)
             {
                 return;
             }
@@ -94,16 +94,7 @@ namespace Lucene.Net.Support.Configuration
             switch (action)
             {
                 case ConfigurationAction.Add:
-                    string valueToAdd = value.Value;
-
-                    if (results.ContainsKey(fullkey))
-                    {
-                        results[fullkey] = valueToAdd;
-                    }
-                    else
-                    {
-                        results.Add(fullkey, valueToAdd);
-                    }
+                    results[fullkey] = value.Value;
                     break;
                 case ConfigurationAction.Remove:
                     results.Remove(fullkey);
